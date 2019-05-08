@@ -13,12 +13,12 @@ import (
 func connect(addr string, ch chan string) {
 	s, e := net.Dial("tcp", addr)
 	if e == nil {
+		s.SetDeadline(time.Now().Add(2 * time.Second))
 		buf := make([]byte, 1024)
-		s.SetReadDeadline(time.Now().Add(1 * time.Second))
-		n,_:=s.Read(buf)
+		n, _ := s.Read(buf)
 		for i, b := range buf[:n] {
 			if !strconv.IsPrint(int32(b)) {
-			buf[i]='\040'
+				buf[i] = '\040'
 			}
 		}
 		ch <- fmt.Sprintf("The %c[1;32m%-21s%c[0m is   Connect able --%c[1;32m%s%c[0m	--> %c[1;35m%s%c[0m", 0x1B, addr, 0x1B, 0x1B, "True", 0x1B, 0x1B, strings.ReplaceAll(string(buf), "\n", " "), 0x1B)
@@ -75,6 +75,6 @@ func main() {
 		if !all && strings.Contains(r, "False") {
 			continue
 		}
-		println(r)
+		println(fmt.Sprintf("%-5d %s", i, r))
 	}
 }
