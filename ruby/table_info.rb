@@ -1,6 +1,6 @@
 require 'mysql2'
 
-Db=Mysql2::Client.new(:host=>'192.168.2.8',:username=>'jklz',:password=>'sQWeBvaqT6B3',:database=>'his')
+Db=Mysql2::Client.new(:host=>'192.168.2.8',:username=>'jklz',:password=>'000000',:database=>'his')
 
 tables=Db.query(%Q{show tables;}).to_a.map{|t| t['Tables_in_his']}
 
